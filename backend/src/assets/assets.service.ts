@@ -30,13 +30,13 @@ export class AssetsService {
 
   async findById(id: number): Promise<Asset> {
     const asset = await this.assetsRepo.findById(id);
-    if (!asset) throw new NotFoundException('Asset not found');
+    if (!asset) throw new NotFoundException('Ativo não encontrado');
     return asset;
   }
 
   async update(id: number, dto: UpdateAssetDto): Promise<Asset> {
     const asset = await this.assetsRepo.findById(id);
-    if (!asset) throw new NotFoundException('Asset not found');
+    if (!asset) throw new NotFoundException('Ativo não encontrado');
 
     const data: Prisma.AssetUpdateInput = {};
 

@@ -22,7 +22,7 @@ export class EmployeesService {
 
   async findById(id: number) {
     const employee = await this.employeesRepo.findById(id);
-    if (!employee) throw new NotFoundException('Employee not found');
+    if (!employee) throw new NotFoundException('Funcionário não encontrado');
     return employee;
   }
 
@@ -32,13 +32,13 @@ export class EmployeesService {
 
   async update(id: number, dto: UpdateEmployeeDto) {
     const employee = await this.employeesRepo.findById(id);
-    if (!employee) throw new NotFoundException('Employee not found');
+    if (!employee) throw new NotFoundException('Funcionário não encontrado');
     return this.employeesRepo.update(id, dto);
   }
 
   async delete(id: number) {
     const employee = await this.employeesRepo.findById(id);
-    if (!employee) throw new NotFoundException('Employee not found');
+    if (!employee) throw new NotFoundException('Funcionário não encontrado');
     return this.employeesRepo.delete(id);
   }
 }
