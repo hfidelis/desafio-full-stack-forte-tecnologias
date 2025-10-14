@@ -17,7 +17,7 @@ export class CompaniesService {
 
   async findById(id: number) {
     const company = await this.companiesRepo.findById(id);
-    if (!company) throw new NotFoundException('Company not found');
+    if (!company) throw new NotFoundException('Empresa não encontrada');
     return company;
   }
 

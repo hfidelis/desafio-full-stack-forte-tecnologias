@@ -13,7 +13,7 @@ export class IsCpfConstraint implements ValidatorConstraintInterface {
   }
 
   defaultMessage() {
-    return 'Invalid CPF format';
+    return 'Formato de CPF inválido';
   }
 }
 

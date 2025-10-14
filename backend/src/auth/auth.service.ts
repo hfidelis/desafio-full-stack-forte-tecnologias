@@ -15,10 +15,10 @@ export class AuthService {
 
   async validateUser(email: string, password: string) {
     const user = await this.authRepo.findUserByEmail(email);
-    if (!user) throw new UnauthorizedException('Invalid credentials');
+    if (!user) throw new UnauthorizedException('Credenciais inválidas');
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw new UnauthorizedException('Invalid credentials');
+    if (!isMatch) throw new UnauthorizedException('Credenciais inválidas');
 
     return user;
   }

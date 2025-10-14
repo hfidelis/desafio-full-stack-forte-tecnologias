@@ -28,17 +28,17 @@ export class UsersController {
 
   @Get()
   @Roles(Role.ADMIN)
-  @ApiOperation({ summary: 'List all users (ADMIN only)' })
-  @ApiResponse({ status: 200, description: 'Users listed successfully' })
+  @ApiOperation({ summary: 'Listar todos os usuários (apenas ADMIN)' })
+  @ApiResponse({ status: 200, description: 'Usuários listados com sucesso' })
   async findAll(@Req() req) {
     return this.usersService.findAll(req.user.role, req.user.userId);
   }
 
   @Get('me')
-  @ApiOperation({ summary: 'List information of the authenticated user' })
+  @ApiOperation({ summary: 'Listar informações do usuário autenticado' })
   @ApiResponse({
     status: 200,
-    description: 'Information returned successfully',
+    description: 'Informações retornadas com sucesso',
   })
   async findMe(@Req() req) {
     return this.usersService.findMe(req.user.userId);
@@ -46,7 +46,7 @@ export class UsersController {
 
   @Delete(':id')
   @Roles(Role.ADMIN)
-  @ApiOperation({ summary: 'Remove user (ADMIN only)' })
+  @ApiOperation({ summary: 'Remover usuário (apenas ADMIN)' })
   async deleteUser(@Req() req, @Param('id', ParseIntPipe) id: number) {
     const request: Request = req;
     const user: User = request['user'];

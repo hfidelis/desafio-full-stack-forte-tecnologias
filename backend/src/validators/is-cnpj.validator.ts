@@ -13,7 +13,7 @@ export class IsCnpjConstraint implements ValidatorConstraintInterface {
   }
 
   defaultMessage() {
-    return 'Invalid CNPJ format';
+    return 'Formato de CNPJ inválido';
   }
 }
 

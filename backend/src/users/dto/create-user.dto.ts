@@ -10,12 +10,12 @@ import {
 } from 'class-validator';
 
 export class CreateUserDto {
-  @ApiProperty({ example: 'user@example.com' })
+  @ApiProperty({ example: 'usuario@exemplo.com' })
   @IsEmail()
   @Transform(({ value }: { value: string }) => value?.toLowerCase().trim())
   email: string;
 
-  @ApiProperty({ example: 'strongPassword123' })
+  @ApiProperty({ example: 'senhaForte123' })
   @IsString()
   @IsNotEmpty()
   @MinLength(6)

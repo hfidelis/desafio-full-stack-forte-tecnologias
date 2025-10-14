@@ -15,13 +15,13 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  @ApiOperation({ summary: 'User login' })
+  @ApiOperation({ summary: 'Login do usuário' })
   @ApiResponse({
     status: 200,
-    description: 'User logged in successfully',
+    description: 'Login do usuário realizado com sucesso',
     type: UserResponseDto,
   })
-  @ApiResponse({ status: 401, description: 'Invalid credentials' })
+  @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
   async login(@Body() dto: LoginDto) {
     return this.authService.login(dto.email, dto.password);
   }
@@ -29,13 +29,13 @@ export class AuthController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Post('register')
-  @ApiOperation({ summary: 'Register a new user (ADMIN only)' })
+  @ApiOperation({ summary: 'Registrar um novo usuário (apenas ADMIN)' })
   @ApiResponse({
     status: 201,
-    description: 'User registered successfully',
+    description: 'Usuário registrado com sucesso',
     type: UserResponseDto,
   })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 403, description: 'Acesso negado' })
   async register(@Req() req, @Body() dto: CreateUserDto) {
     const request: Request = req;
     const requestUser: User = request['user'];

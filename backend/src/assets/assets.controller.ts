@@ -29,10 +29,10 @@ export class AssetsController {
   constructor(private readonly assetsService: AssetsService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create a new asset' })
+  @ApiOperation({ summary: 'Criar um novo ativo' })
   @ApiResponse({
     status: 201,
-    description: 'The asset has been successfully created.',
+    description: 'O ativo foi criado com sucesso.',
     type: CreateAssetDto,
   })
   create(@Body() dto: CreateAssetDto) {
@@ -40,16 +40,16 @@ export class AssetsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'List all assets' })
+  @ApiOperation({ summary: 'Listar todos os ativos' })
   findAll() {
     return this.assetsService.findAll();
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get asset by ID' })
+  @ApiOperation({ summary: 'Obter ativo por ID' })
   @ApiResponse({
     status: 200,
-    description: 'The asset has been successfully retrieved.',
+    description: 'O ativo foi recuperado com sucesso.',
     type: CreateAssetDto,
   })
   findById(@Param('id', ParseIntPipe) id: number) {
@@ -57,10 +57,10 @@ export class AssetsController {
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Update an asset' })
+  @ApiOperation({ summary: 'Atualizar um ativo' })
   @ApiResponse({
     status: 200,
-    description: 'The asset has been successfully updated.',
+    description: 'O ativo foi atualizado com sucesso.',
     type: UpdateAssetDto,
   })
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateAssetDto) {
@@ -68,10 +68,10 @@ export class AssetsController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete an asset' })
+  @ApiOperation({ summary: 'Deletar um ativo' })
   @ApiResponse({
     status: 200,
-    description: 'The asset has been successfully deleted.',
+    description: 'O ativo foi deletado com sucesso.',
     type: CreateAssetDto,
   })
   delete(@Param('id', ParseIntPipe) id: number) {
@@ -79,7 +79,7 @@ export class AssetsController {
   }
 
   @Patch(':id/assign/:employeeId')
-  @ApiOperation({ summary: 'Assign asset to employee' })
+  @ApiOperation({ summary: 'Associar ativo a um funcionário' })
   assign(
     @Param('id', ParseIntPipe) id: number,
     @Param('employeeId', ParseIntPipe) employeeId: number,
@@ -88,16 +88,16 @@ export class AssetsController {
   }
 
   @Patch(':id/unassign')
-  @ApiOperation({ summary: 'Unassign asset from employee' })
+  @ApiOperation({ summary: 'Desassociar ativo de um funcionário' })
   unassign(@Param('id', ParseIntPipe) id: number) {
     return this.assetsService.unassign(id);
   }
 
   @Get('employee/:employeeId')
-  @ApiOperation({ summary: 'List all assets of an employee' })
+  @ApiOperation({ summary: 'Listar todos os ativos de um funcionário' })
   @ApiResponse({
     status: 200,
-    description: 'The assets have been successfully retrieved.',
+    description: 'Os ativos foram recuperados com sucesso.',
     type: [CreateAssetDto],
   })
   findByEmployee(@Param('employeeId', ParseIntPipe) employeeId: number) {

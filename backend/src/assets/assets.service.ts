@@ -45,17 +45,19 @@ export class AssetsService {
 
   async delete(id: number): Promise<Asset> {
     const asset = await this.assetsRepo.findById(id);
-    if (!asset) throw new NotFoundException('Asset not found');
+    if (!asset) throw new NotFoundException('Ativo não encontrado');
     return this.assetsRepo.delete(id);
   }
 
   async assignToEmployee(assetId: number, employeeId: number): Promise<Asset> {
     const asset = await this.assetsRepo.findById(assetId);
-    if (!asset) throw new NotFoundException('Asset not found');
+    if (!asset) throw new NotFoundException('Ativo não encontrado');
     if (asset.employeeId)
-      throw new BadRequestException('asset is already assigned');
+      throw new BadRequestException('Ativo já está associado a um funcionário');
     if (asset.status.name !== 'available')
-      throw new BadRequestException('asset is not available');
+      throw new BadRequestException(
+        'Ativo não está disponível para associação',
+      );
 
     if (asset.type.name === 'notebook') {
       const hasNotebook =
@@ -63,7 +65,7 @@ export class AssetsService {
 
       if (hasNotebook) {
         throw new BadRequestException(
-          'employee already has a notebook assigned',
+          'O Funcionário já possui um notebook associado',
         );
       }
     }
@@ -76,9 +78,11 @@ export class AssetsService {
 
   async unassign(assetId: number): Promise<Asset> {
     const asset = await this.assetsRepo.findById(assetId);
-    if (!asset) throw new NotFoundException('asset not found');
+    if (!asset) throw new NotFoundException('Ativo não encontrado');
     if (!asset.employeeId) {
-      throw new BadRequestException('asset is not assigned');
+      throw new BadRequestException(
+        'O Ativo não está associado a um funcionário',
+      );
     }
 
     return this.assetsRepo.update(assetId, {

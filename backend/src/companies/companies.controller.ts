@@ -29,34 +29,34 @@ export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create a new company' })
-  @ApiResponse({ status: 201, description: 'Company created successfully' })
+  @ApiOperation({ summary: 'Criar uma nova empresa' })
+  @ApiResponse({ status: 201, description: 'Empresa criada com sucesso' })
   create(@Body() dto: CreateCompanyDto) {
     return this.companiesService.create(dto);
   }
 
   @Get()
-  @ApiOperation({ summary: 'List all companies' })
-  @ApiResponse({ status: 200, description: 'Companies listed successfully' })
+  @ApiOperation({ summary: 'Listar todas as empresas' })
+  @ApiResponse({ status: 200, description: 'Empresas listadas com sucesso' })
   findAll() {
     return this.companiesService.findAll();
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get company details' })
-  @ApiResponse({ status: 200, description: 'Company found' })
+  @ApiOperation({ summary: 'Obter detalhes da empresa' })
+  @ApiResponse({ status: 200, description: 'Empresa encontrada' })
   findById(@Param('id', ParseIntPipe) id: number) {
     return this.companiesService.findById(id);
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Update a company' })
+  @ApiOperation({ summary: 'Atualizar uma empresa' })
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateCompanyDto) {
     return this.companiesService.update(id, dto);
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete a company' })
+  @ApiOperation({ summary: 'Remover uma empresa' })
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.companiesService.delete(id);
   }

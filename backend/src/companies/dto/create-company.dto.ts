@@ -9,7 +9,7 @@ export class CreateCompanyDto {
   name: string;
 
   @ApiProperty({ example: '12.345.678/0001-99' })
-  @IsCnpj({ message: 'Invalid CNPJ format' })
+  @IsCnpj({ message: 'Formato de CNPJ inválido' })
   @IsString()
   cnpj: string;
 }

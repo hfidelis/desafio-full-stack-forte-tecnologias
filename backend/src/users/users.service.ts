@@ -18,12 +18,14 @@ export class UsersService {
     role: Role,
   ) {
     if (requestingUserRole !== Role.ADMIN) {
-      throw new ForbiddenException('Only administrators can create new users.');
+      throw new ForbiddenException(
+        'Somente administradores podem criar usuários.',
+      );
     }
 
     const existing = await this.usersRepo.findByEmail(email);
     if (existing) {
-      throw new ForbiddenException('A user with this email already exists.');
+      throw new ForbiddenException('Já existe um usuário com este email.');
     }
 
     const hashed = await bcrypt.hash(password, 10);
@@ -34,21 +36,25 @@ export class UsersService {
 
   async findAll(requestingUserRole: Role, currentUserId: number) {
     if (requestingUserRole !== Role.ADMIN) {
-      throw new ForbiddenException('Only administrators can list all users.');
+      throw new ForbiddenException(
+        'Somente administradores podem listar todos os usuários.',
+      );
     }
     return this.usersRepo.findAllExcept(currentUserId);
   }
 
   async findMe(currentUserId: number) {
     const user = await this.usersRepo.findById(currentUserId);
-    if (!user) throw new NotFoundException('User not found');
+    if (!user) throw new NotFoundException('Usuário não encontrado');
     const { password, ...safe } = user;
     return safe;
   }
 
   async deleteUser(requestingUserRole: Role, targetUserId: number) {
     if (requestingUserRole !== Role.ADMIN) {
-      throw new ForbiddenException('Only administrators can delete users.');
+      throw new ForbiddenException(
+        'Somente administradores podem deletar usuários.',
+      );
     }
 
     const deleted = await this.usersRepo.deleteUser(targetUserId);

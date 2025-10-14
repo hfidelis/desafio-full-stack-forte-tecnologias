@@ -8,13 +8,13 @@ export class CreateEmployeeDto {
   @Length(3, 100)
   name: string;
 
-  @ApiProperty({ example: 'user@example.com' })
+  @ApiProperty({ example: 'usuario@exemplo.com' })
   @IsEmail()
   email: string;
 
   @ApiProperty({ example: '123.456.789-00' })
   @IsString()
-  @IsCpf({ message: 'Invalid CPF Format' })
+  @IsCpf({ message: 'Formato de CPF inválido' })
   cpf: string;
 
   @ApiProperty({ example: 1 })
