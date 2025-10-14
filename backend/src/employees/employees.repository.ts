@@ -3,6 +3,8 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Employee } from '@prisma/client';
 import { Prisma } from '@prisma/client';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
+import { paginate } from 'src/common/pagination/pagination.util';
+import { PaginatedResponseDto } from 'src/common/pagination/pagination-response.dto';
 
 @Injectable()
 export class EmployeesRepository {
@@ -19,8 +21,13 @@ export class EmployeesRepository {
     });
   }
 
-  findAll(): Promise<Employee[]> {
-    return this.prisma.employee.findMany({
+  findAll(
+    page: number = 1,
+    page_size: number = 10,
+  ): Promise<PaginatedResponseDto<Employee>> {
+    return paginate<Employee>(this.prisma.employee, {
+      page,
+      page_size,
       include: { company: true, assets: true },
     });
   }

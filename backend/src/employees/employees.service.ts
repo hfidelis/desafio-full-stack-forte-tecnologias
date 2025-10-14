@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { EmployeesRepository } from './employees.repository';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { PaginatedResponseDto } from 'src/common/pagination/pagination-response.dto';
+import { Employee } from '@prisma/client';
 
 @Injectable()
 export class EmployeesService {
@@ -11,8 +13,11 @@ export class EmployeesService {
     return this.employeesRepo.create(dto);
   }
 
-  async findAll() {
-    return this.employeesRepo.findAll();
+  async findAll(
+    page: number = 1,
+    page_size: number = 10,
+  ): Promise<PaginatedResponseDto<Employee>> {
+    return this.employeesRepo.findAll(page, page_size);
   }
 
   async findById(id: number) {

@@ -4,8 +4,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
-import { Role } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { PaginatedResponseDto } from 'src/common/pagination/pagination-response.dto';
 
 @Injectable()
 export class UsersService {
@@ -34,13 +35,18 @@ export class UsersService {
     return safe;
   }
 
-  async findAll(requestingUserRole: Role, currentUserId: number) {
+  async findAll(
+    requestingUserRole: Role,
+    currentUserId: number,
+    page: number = 1,
+    page_size: number = 10,
+  ): Promise<PaginatedResponseDto<User>> {
     if (requestingUserRole !== Role.ADMIN) {
       throw new ForbiddenException(
         'Somente administradores podem listar todos os usuários.',
       );
     }
-    return this.usersRepo.findAllExcept(currentUserId);
+    return this.usersRepo.findAllExcept(currentUserId, page, page_size);
   }
 
   async findMe(currentUserId: number) {

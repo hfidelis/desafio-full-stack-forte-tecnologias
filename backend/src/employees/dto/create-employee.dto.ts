@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsEmail, Length, IsInt } from 'class-validator';
-import { IsCpf } from '../../validators/is-cpf.validator';
+import { IsCpf } from '../../common/validators/is-cpf.validator';
 
 export class CreateEmployeeDto {
   @ApiProperty({ example: 'João Silva' })

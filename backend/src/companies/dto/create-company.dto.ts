@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, Length } from 'class-validator';
-import { IsCnpj } from 'src/validators/is-cnpj.validator';
+import { IsCnpj } from 'src/common/validators/is-cnpj.validator';
 
 export class CreateCompanyDto {
   @ApiProperty({ example: 'Forte Tecnologias' })

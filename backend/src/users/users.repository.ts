@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User, Role, Prisma } from '@prisma/client';
+import { paginate } from 'src/common/pagination/pagination.util';
+import { PaginatedResponseDto } from 'src/common/pagination/pagination-response.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -22,8 +24,10 @@ export class UsersRepository {
 
   async findAllExcept(
     currentUserId: number,
-  ): Promise<Omit<User, 'password'>[]> {
-    return this.prisma.user.findMany({
+    page: number,
+    page_size: number,
+  ): Promise<PaginatedResponseDto<User>> {
+    return paginate<User>(this.prisma.user, {
       where: { id: { not: currentUserId } },
       select: {
         id: true,
@@ -32,6 +36,8 @@ export class UsersRepository {
         createdAt: true,
         updatedAt: true,
       },
+      page,
+      page_size,
     });
   }
 

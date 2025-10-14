@@ -3,10 +3,12 @@ import {
   Get,
   Post,
   Patch,
+  Query,
   Delete,
   Param,
   Body,
   ParseIntPipe,
+  DefaultValuePipe,
   UseGuards,
 } from '@nestjs/common';
 import { AssetsService } from './assets.service';
@@ -19,7 +21,9 @@ import {
   ApiBearerAuth,
   ApiOperation,
   ApiResponse,
+  ApiQuery,
 } from '@nestjs/swagger';
+import { PaginatedResponseDto } from 'src/common/pagination/pagination-response.dto';
 
 @ApiTags('Assets')
 @ApiBearerAuth()
@@ -41,8 +45,18 @@ export class AssetsController {
 
   @Get()
   @ApiOperation({ summary: 'Listar todos os ativos' })
-  findAll() {
-    return this.assetsService.findAll();
+  @ApiResponse({
+    status: 200,
+    description: 'Os ativos foram recuperados com sucesso.',
+    type: PaginatedResponseDto,
+  })
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'page_size', required: false, type: Number, example: 10 })
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('page_size', new DefaultValuePipe(10), ParseIntPipe) page_size = 10,
+  ) {
+    return this.assetsService.findAll(page, page_size);
   }
 
   @Get(':id')

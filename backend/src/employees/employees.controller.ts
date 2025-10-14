@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Query,
   Post,
   Patch,
   Delete,
@@ -8,6 +9,7 @@ import {
   Body,
   UseGuards,
   ParseIntPipe,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
@@ -19,7 +21,9 @@ import {
   ApiOperation,
   ApiBearerAuth,
   ApiResponse,
+  ApiQuery,
 } from '@nestjs/swagger';
+import { PaginatedResponseDto } from 'src/common/pagination/pagination-response.dto';
 
 @ApiTags('Employees')
 @ApiBearerAuth()
@@ -29,16 +33,26 @@ export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create a new employee' })
-  @ApiResponse({ status: 201, description: 'Employee successfully created' })
+  @ApiOperation({ summary: 'Criar um novo funcionário' })
+  @ApiResponse({ status: 201, description: 'Funcionário criado com sucesso' })
   create(@Body() dto: CreateEmployeeDto) {
     return this.employeesService.create(dto);
   }
 
   @Get()
-  @ApiOperation({ summary: 'List all employees' })
-  findAll() {
-    return this.employeesService.findAll();
+  @ApiOperation({ summary: 'Listar todos os funcionários' })
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'page_size', required: false, type: Number, example: 10 })
+  @ApiResponse({
+    status: 200,
+    description: 'Funcionários listados com sucesso',
+    type: PaginatedResponseDto,
+  })
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('page_size', new DefaultValuePipe(10), ParseIntPipe) page_size = 10,
+  ) {
+    return this.employeesService.findAll(page, page_size);
   }
 
   @Get(':id')
@@ -48,13 +62,13 @@ export class EmployeesController {
   }
 
   @Get('company/:companyId')
-  @ApiOperation({ summary: 'List all employees from a company' })
+  @ApiOperation({ summary: 'Listar todos os funcionários de uma empresa' })
   findByCompany(@Param('companyId', ParseIntPipe) companyId: number) {
     return this.employeesService.findByCompany(companyId);
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Update an employee' })
+  @ApiOperation({ summary: 'Atualizar um funcionário' })
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateEmployeeDto,
@@ -63,7 +77,7 @@ export class EmployeesController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete an employee' })
+  @ApiOperation({ summary: 'Remover um funcionário' })
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.employeesService.delete(id);
   }

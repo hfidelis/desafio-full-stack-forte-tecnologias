@@ -6,7 +6,9 @@ import {
   Delete,
   Param,
   Body,
+  Query,
   UseGuards,
+  DefaultValuePipe,
   ParseIntPipe,
 } from '@nestjs/common';
 import {
@@ -14,7 +16,9 @@ import {
   ApiOperation,
   ApiResponse,
   ApiBearerAuth,
+  ApiQuery,
 } from '@nestjs/swagger';
+import { PaginatedResponseDto } from 'src/common/pagination/pagination-response.dto';
 import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
@@ -37,9 +41,18 @@ export class CompaniesController {
 
   @Get()
   @ApiOperation({ summary: 'Listar todas as empresas' })
-  @ApiResponse({ status: 200, description: 'Empresas listadas com sucesso' })
-  findAll() {
-    return this.companiesService.findAll();
+  @ApiResponse({
+    status: 200,
+    description: 'Empresas listadas com sucesso',
+    type: PaginatedResponseDto,
+  })
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'page_size', required: false, type: Number, example: 10 })
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('page_size', new DefaultValuePipe(10), ParseIntPipe) page_size = 10,
+  ) {
+    return this.companiesService.findAll(page, page_size);
   }
 
   @Get(':id')

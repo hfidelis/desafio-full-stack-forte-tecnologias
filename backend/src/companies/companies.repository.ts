@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Company } from '@prisma/client';
 import { Prisma } from '@prisma/client';
+import { paginate } from 'src/common/pagination/pagination.util';
+import { PaginatedResponseDto } from 'src/common/pagination/pagination-response.dto';
 
 @Injectable()
 export class CompaniesRepository {
@@ -11,8 +13,15 @@ export class CompaniesRepository {
     return this.prisma.company.create({ data });
   }
 
-  findAll(): Promise<Company[]> {
-    return this.prisma.company.findMany();
+  findAll(
+    page: number = 1,
+    page_size: number = 10,
+  ): Promise<PaginatedResponseDto<Company>> {
+    return paginate<Company>(this.prisma.company, {
+      page,
+      page_size,
+      include: { employees: true },
+    });
   }
 
   findById(id: number): Promise<Company | null> {

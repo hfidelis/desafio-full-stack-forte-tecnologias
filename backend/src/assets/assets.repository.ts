@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Asset, Prisma } from '@prisma/client';
+import { PaginatedResponseDto } from 'src/common/pagination/pagination-response.dto';
+import { paginate } from 'src/common/pagination/pagination.util';
 
 type AssetWithRelations = Prisma.AssetGetPayload<{
   include: { type: true; status: true; employee: true };
@@ -14,9 +16,14 @@ export class AssetsRepository {
     return this.prisma.asset.create({ data });
   }
 
-  findAll(): Promise<Asset[]> {
-    return this.prisma.asset.findMany({
+  findAll(
+    page: number = 1,
+    page_size: number = 10,
+  ): Promise<PaginatedResponseDto<Asset>> {
+    return paginate(this.prisma.asset, {
       include: { type: true, status: true, employee: true },
+      page,
+      page_size,
     });
   }
 

@@ -7,6 +7,7 @@ import { AssetsRepository } from './assets.repository';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
 import { Asset, Prisma } from '@prisma/client';
+import { PaginatedResponseDto } from 'src/common/pagination/pagination-response.dto';
 
 @Injectable()
 export class AssetsService {
@@ -20,8 +21,11 @@ export class AssetsService {
     });
   }
 
-  async findAll(): Promise<Asset[]> {
-    return this.assetsRepo.findAll();
+  async findAll(
+    page: number = 1,
+    page_size: number = 10,
+  ): Promise<PaginatedResponseDto<Asset>> {
+    return this.assetsRepo.findAll(page, page_size);
   }
 
   async findById(id: number): Promise<Asset> {
