@@ -56,7 +56,7 @@ export class EmployeesController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get employee by ID' })
+  @ApiOperation({ summary: 'Listar um funcionário pelo ID' })
   findById(@Param('id', ParseIntPipe) id: number) {
     return this.employeesService.findById(id);
   }
