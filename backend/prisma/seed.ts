@@ -25,7 +25,7 @@ async function seed() {
     });
   }
 
-  const assetStatuses = ['avaliable', 'allocated', 'maintenance'];
+  const assetStatuses = ['available', 'allocated', 'maintenance'];
   for (const statusName of assetStatuses) {
     await prisma.assetStatus.upsert({
       where: { name: statusName },
