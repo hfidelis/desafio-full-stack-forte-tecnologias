@@ -1,125 +1,112 @@
 # Desafio Full-Stack | Forte Tecnologias
 
-Olá, candidato(a)! Seja bem-vindo(a) ao nosso desafio de código.
+## Tecnologias Utilizadas
 
-Este teste foi projetado para simular um problema do mundo real e nos ajudar a entender suas habilidades técnicas em um ambiente prático. O objetivo é construir uma aplicação Full-Stack simples, mas bem estruturada, utilizando as tecnologias que usamos aqui na Forte Tecnologias.
+### Backend:
+- Nest.js
+- Prisma
+- class-validator e class-transformer
+- JWT
+- Swagger (OpenAPI)
+- PostgreSQL
 
-**Boa sorte!**
+### Frontend:
+- Angular 20
+- Angular Material
+- ngx-mask
 
-## Stacks do Desafio
+### Funcionalidades
+- Autenticação via JWT
+- Testes automatizados dos services no backend
+- Criação e remoção de Usuários (apenas para administradores)
+- CRUD de Empresas
+- CRUD de Funcionários
+- CRUD de Ativos
+- Associação e Desassociação de Ativos a Funcionários
+- Regra de negócio para associar apenas 1 notebook por funcionário
+- Validações de dados no backend e frontend
+- Documentação da API via Swagger (OpenAPI)
+- Seed inicial do banco de dados com um usuário administrador e status e tipos de ativos
+- Tratamento de erros e mensagens amigáveis no frontend
 
--   **Backend**: NestJS, Prisma ORM com PostgreSQL, Docker.
--   **Frontend**: Angular (Material).
+### Como executar o projeto
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/hfidelis/desafio-full-stack-forte-tecnologias
+   cd desafio-full-stack-forte-tecnologias
+    ```
 
-## O Cenário: Forte Asset Manager
+2. As variáveis de ambiente estão definidas e comitadas apenas por questões de praticidade para o teste e avaliação. No diretório raíz temos uma arquivo `.env` com as variáveis do banco de dados e no diretório do backend temos um arquivo `.env` com as variáveis JWT, string do banco e dados do super usuário.
 
-Você foi encarregado(a) de criar um pequeno sistema interno para a Forte Tecnologias chamado **"Forte Asset Manager"**. O sistema deve permitir que o departamento de TI gerencie os ativos da empresa (como notebooks e monitores) e os associe aos funcionários.
+```bash
+# .env
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=forte_assets
+POSTGRES_PORT=5432
 
-Este sistema resolverá um problema comum: saber qual funcionário está com qual equipamento e quais equipamentos estão disponíveis.
-
-## Requisitos Funcionais
-
-### Backend
-
-Você deverá criar uma API RESTful com os seguintes recursos:
-
-1.  **CRUD de Empresas (`Companies`)**:
-    -   Uma empresa deve ter `id`, `name` e `cnpj`.
-    -   Endpoints para criar, listar, buscar por id, atualizar e remover uma empresa.
-
-2.  **CRUD de Funcionários (`Employees`)**:
-    -   Um funcionário deve ter `id`, `name`, `email` e `cpf`.
-    -   Um funcionário **deve pertencer a uma empresa**.
-    -   Endpoints para criar, listar, buscar por id, atualizar e remover um funcionário.
-
-3.  **CRUD de Ativos (`Assets`)**:
-    -   Um ativo deve ter `id`, `name`, `type` (ex: 'Notebook', 'Monitor', 'Celular') e um `status` (ex: 'Disponível', 'Em Uso', 'Em Manutenção').
-    -   Endpoints para criar, listar, buscar por id, atualizar e remover um ativo.
-
-4.  **Lógica de Associação de Ativos**:
-    -   **Endpoint para Associar um Ativo**: Crie um endpoint que associe um ativo `Disponível` a um funcionário.
-        -   Ao associar, o status do ativo deve mudar para `Em Uso`.
-        -   **Regra de negócio crucial**: Um funcionário só pode ter **um único ativo do tipo 'Notebook'** associado a ele por vez. A API deve retornar um erro caso essa regra seja violada.
-    -   **Endpoint para Desassociar um Ativo**: Crie um endpoint que remova a associação de um ativo com um funcionário.
-        -   Ao desassociar, o status do ativo deve voltar para `Disponível`.
-
-5.  **Endpoints de Listagem**:
-    -   Um endpoint para listar todos os funcionários de uma determinada empresa.
-    -   Um endpoint para listar todos os ativos associados a um determinado funcionário.
-
-### Frontend
-
-Você deverá criar uma interface de usuário simples para interagir com a API.
-
-1.  **Página de Empresas**:
-    -   Listar todas as empresas.
-    -   Permitir a criação de uma nova empresa.
-
-2.  **Página de Detalhes da Empresa**:
-    -   Ao clicar em uma empresa, o usuário deve ser levado para uma página que mostra os detalhes da empresa e **lista todos os seus funcionários**.
-    -   Nessa página, deve ser possível adicionar novos funcionários àquela empresa.
-
-3.  **Página de Gestão de Ativos do Funcionário**:
-    -   Na lista de funcionários, deve haver uma opção para "Gerenciar Ativos".
-    -   Esta página deve mostrar os ativos já associados ao funcionário e permitir a **associação de novos ativos disponíveis** e a **desassociação** dos existentes.
-
-## Requisitos Técnicos
-
--   **Backend**:
-    -   O projeto deve ser construído com **NestJS**.
-    -   A persistência de dados deve ser feita com **Prisma ORM** e um banco de dados **PostgreSQL**.
-    -   O banco de dados PostgreSQL deve ser executado em um container **Docker** via `docker-compose.yml`.
-    -   É **obrigatório** seguir o padrão de arquitetura **Controller-Service-Repository (CSR)**.
-        -   **Controllers**: Apenas recebem requisições, validam DTOs e chamam os services.
-        -   **Services**: Contêm toda a lógica de negócio (ex: a regra de um notebook por funcionário). **Não devem interagir diretamente com o Prisma**.
-        -   **Repositories**: Camada de acesso a dados. É o **único lugar** onde o `PrismaClient` deve ser utilizado.
-
--   **Frontend**:
-    -   O projeto deve ser construído com **Angular**.
-    -   A aplicação deve ser reativa e consumir os endpoints criados no backend.
-    -   Estruture a aplicação de forma organizada, separando componentes, serviços e modelos.
-
-## Estrutura do Repositório
-
-Após forkar este repositório, você deverá criar a seguinte estrutura de pastas na raiz do projeto:
-
-```
-/
-├── backend/      # Projeto NestJS
-├── frontend/     # Projeto Angular
-└── README.md     # Este arquivo
+# backend/.env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/forte_assets?schema=public"
+JWT_SECRET="0f7ddfb27f1b08a28ebf58a25cfe3f3a"
+JWT_EXPIRES_IN="3600s"
+PORT=3000
+ADMIN_EMAIL="admin@forte.com"
+ADMIN_PASSWORD="forteadmin"
 ```
 
-Você é responsável por iniciar ambos os projetos do zero.
+3. Inicie o banco de dados utilizando docker-compose:
+    ```bash
+    docker-compose up -d
+    ```
 
-## O que Esperamos de Você
+4. Inicialize o backend (Dependências, migrações, seed, testes e start):
+    ```bash
+    cd backend
 
-1.  Faça um **fork** deste repositório.
-2.  Crie sua solução em seu próprio repositório forkado.
-3.  Utilize `git` para versionar seu progresso com commits claros e objetivos.
-4.  Ao finalizar, nos envie o link do seu repositório. Não é necessário abrir um Pull Request para este repositório original.
+    npm install
 
-## Pontos Bônus (Opcional)
+    npx prisma migrate deploy
 
-Estes itens não são obrigatórios, mas serão vistos como um grande diferencial:
+    npx prisma db seed
 
--   **Testes Automatizados**:
-    -   No backend: Testes unitários para os *services*, validando as regras de negócio.
-    -   No frontend: Testes unitários para os componentes.
--   **Validação de Dados**: Utilização de `class-validator` e `class-transformer` no backend para os DTOs.
--   **Documentação da API**: Geração de documentação dos endpoints com Swagger (OpenAPI) no NestJS.
--   **Tratamento de Erros**: Um tratamento de erros robusto tanto no backend quanto no frontend, exibindo mensagens claras para o usuário.
--   **UI/UX**: Uma interface limpa e intuitiva no frontend, utilizando alguma biblioteca de componentes como Angular Material.
+    npm run test
 
-## Critérios de Avaliação
+    npm run start:dev
+    ```
 
-Nós avaliaremos os seguintes pontos:
+**Agora o backend estará rodando em** `http://localhost:3000` **e a documentação da API via Swagger (OpenAPI) estará disponível em** `http://localhost:3000/api/docs`.
 
--   **Funcionalidade**: A aplicação atende a todos os requisitos funcionais descritos?
--   **Qualidade do Código**: O código está limpo, legível, bem organizado e segue as melhores práticas de cada tecnologia?
--   **Arquitetura**: A estrutura do projeto (especialmente a adesão ao padrão CSR no backend) está bem definida e escalável?
--   **Modelagem de Dados**: O schema do Prisma está bem modelado e os relacionamentos fazem sentido?
--   **Uso de Git**: A qualidade das mensagens de commit e a organização do histórico.
--   **Diferenciais**: A implementação dos pontos bônus.
+**O usuário administrador inicial é:**
+- Email: `admin@forte.com`
+- Senha: `forteadmin`
 
-Qualquer dúvida, estamos à disposição. Bom trabalho
+5. Inicialize o frontend (Dependências e start):
+    ```bash
+    cd ../frontend
+
+    npm install
+
+    npm run start
+    ```
+
+**Agora o frontend estará rodando em** `http://localhost:4200`.
+
+### Screenshots:
+
+![1](./docs/1.png)
+
+![2](./docs/2.png)
+
+![3](./docs/3.png)
+
+![4](./docs/4.png)
+
+![5](./docs/5.png)
+
+![6](./docs/6.png)
+
+![7](./docs/7.png)
+
+![8](./docs/8.png)
+
+![9](./docs/9.png)
