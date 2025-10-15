@@ -28,7 +28,7 @@ export class EmployeesRepository {
     return paginate<Employee>(this.prisma.employee, {
       page,
       page_size,
-      include: { company: true, assets: true },
+      include: { company: false, assets: false },
     });
   }
 
@@ -42,7 +42,7 @@ export class EmployeesRepository {
   findByCompany(companyId: number): Promise<Employee[]> {
     return this.prisma.employee.findMany({
       where: { companyId },
-      include: { assets: true },
+      include: { assets: false, company: false },
     });
   }
 

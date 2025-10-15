@@ -2,6 +2,7 @@ import {
   Injectable,
   ForbiddenException,
   NotFoundException,
+  ConflictException,
 } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { Role, User } from '@prisma/client';
@@ -26,7 +27,7 @@ export class UsersService {
 
     const existing = await this.usersRepo.findByEmail(email);
     if (existing) {
-      throw new ForbiddenException('Já existe um usuário com este email.');
+      throw new ConflictException('Já existe um usuário com este email.');
     }
 
     const hashed = await bcrypt.hash(password, 10);

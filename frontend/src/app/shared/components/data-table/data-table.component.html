@@ -1,0 +1,70 @@
+<div class="table-container mat-elevation-z2">
+  <div class="table-header">
+    <h2>{{ title }}</h2>
+    @if (description) {
+      <p class="description">{{ description }}</p>
+    }
+    @if (showAdd) {
+      <button mat-flat-button color="primary" (click)="add.emit()">
+        <mat-icon>add</mat-icon> {{ addText || 'Adicionar' }}
+      </button>
+    }
+  </div>
+
+  <div class="table-content">
+    <table *ngIf="data?.length; else emptyState" mat-table [dataSource]="data" class="full-width">
+      <ng-container *ngFor="let col of columns" [matColumnDef]="col.key">
+        <th mat-header-cell *matHeaderCellDef>{{ col.label }}</th>
+        <td mat-cell *matCellDef="let element">
+          {{ getValue(element, col) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            *ngIf="showEdit"
+            mat-icon-button
+            color="primary"
+            (click)="edit.emit(element); $event.stopPropagation()"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="delete.emit(element); $event.stopPropagation()"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        (click)="rowClick.emit(row)"
+        class="clickable-row"
+      ></tr>
+    </table>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <mat-icon>info</mat-icon>
+        <p>{{ emptyMessage || 'Nenhum dado cadastrado no momento.' }}</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <mat-paginator
+    *ngIf="pagination"
+    [length]="total"
+    [pageIndex]="page - 1"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 20, 50]"
+    (page)="pageChange.emit($event)"
+  >
+  </mat-paginator>
+</div>

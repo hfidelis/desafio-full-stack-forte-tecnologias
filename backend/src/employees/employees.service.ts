@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { EmployeesRepository } from './employees.repository';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
@@ -11,10 +15,10 @@ export class EmployeesService {
 
   async create(dto: CreateEmployeeDto) {
     try {
-      return this.employeesRepo.create(dto);
+      return await this.employeesRepo.create(dto);
     } catch (error: any) {
       if ('code' in error && error.code === 'P2002') {
-        throw new NotFoundException(
+        throw new ConflictException(
           'Já existe um funcionário com este CPF ou email',
         );
       }
@@ -43,10 +47,10 @@ export class EmployeesService {
     const employee = await this.employeesRepo.findById(id);
     if (!employee) throw new NotFoundException('Funcionário não encontrado');
     try {
-      return this.employeesRepo.update(id, dto);
+      return await this.employeesRepo.update(id, dto);
     } catch (error: any) {
       if ('code' in error && error.code === 'P2002') {
-        throw new NotFoundException(
+        throw new ConflictException(
           'Já existe um funcionário com este CPF ou email',
         );
       }

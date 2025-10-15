@@ -1,0 +1,46 @@
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+  font-weight: 500;
+  height: 8vh;
+  background-color: #101414;
+  color: #fff;
+
+  .logo {
+    font-size: 1.3rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    color: #fff;
+    text-transform: none;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  a {
+    height: 36px;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    margin-right: 0.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-header {
+    padding: 0 0.8rem;
+
+    .logo {
+      font-size: 1.1rem;
+    }
+
+    a {
+      height: 32px;
+      font-size: 0.85rem;
+    }
+  }
+}

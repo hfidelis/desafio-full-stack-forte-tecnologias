@@ -20,14 +20,14 @@ export class CompaniesRepository {
     return paginate<Company>(this.prisma.company, {
       page,
       page_size,
-      include: { employees: true },
+      include: { employees: false },
     });
   }
 
   findById(id: number): Promise<Company | null> {
     return this.prisma.company.findUnique({
       where: { id },
-      include: { employees: true },
+      include: { employees: false },
     });
   }
 

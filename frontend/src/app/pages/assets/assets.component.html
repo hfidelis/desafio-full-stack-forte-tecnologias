@@ -1,0 +1,17 @@
+<div class="assets-container">
+  <app-data-table
+    [title]="'Ativos'"
+    [columns]="columns"
+    [displayedColumns]="displayedColumns"
+    [data]="assets"
+    [total]="total"
+    [page]="page"
+    [pageSize]="pageSize"
+    [showEdit]="true"
+    (pageChange)="onPageChange($event)"
+    (delete)="onDeleteAsset($event)"
+    (add)="onAddAsset()"
+    (edit)="onEditAsset($event)"
+    [emptyMessage]="'Nenhum ativo cadastrado no momento.'"
+  ></app-data-table>
+</div>

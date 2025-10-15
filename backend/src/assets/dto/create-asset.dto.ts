@@ -10,8 +10,4 @@ export class CreateAssetDto {
   @ApiProperty({ example: 1 })
   @IsInt()
   typeId: number;
-
-  @ApiProperty({ example: 1 })
-  @IsInt()
-  statusId: number;
 }

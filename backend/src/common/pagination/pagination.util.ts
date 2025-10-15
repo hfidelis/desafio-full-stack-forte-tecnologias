@@ -19,7 +19,7 @@ export async function paginate<T>(
 ): Promise<PaginatedResult<T>> {
   const page = args.page && args.page > 0 ? args.page : 1;
   const page_size =
-    args.page_size && args.page_size > 0 && args.page_size <= 100
+    args.page_size && args.page_size > 0 && args.page_size <= 1000
       ? args.page_size
       : 10;
 

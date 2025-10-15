@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Asset, Prisma } from '@prisma/client';
 import { PaginatedResponseDto } from 'src/common/pagination/pagination-response.dto';
 import { paginate } from 'src/common/pagination/pagination.util';
+import { AssetParentDto } from './dto/asset-parent.dto';
 
 type AssetWithRelations = Prisma.AssetGetPayload<{
   include: { type: true; status: true; employee: true };
@@ -66,6 +67,18 @@ export class AssetsRepository {
         employeeId,
         type: { name: 'notebook' },
       },
+    });
+  }
+
+  async getAssetTypes(): Promise<AssetParentDto[]> {
+    return this.prisma.assetType.findMany({
+      select: { id: true, name: true },
+    });
+  }
+
+  async getAssetStatuses(): Promise<AssetParentDto[]> {
+    return this.prisma.assetStatus.findMany({
+      select: { id: true, name: true },
     });
   }
 }

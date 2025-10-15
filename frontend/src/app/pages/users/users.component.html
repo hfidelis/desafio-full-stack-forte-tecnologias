@@ -1,0 +1,14 @@
+<div class="users-container">
+  <app-data-table
+    [title]="'Usuários'"
+    [columns]="columns"
+    [displayedColumns]="displayedColumns"
+    [data]="users"
+    [total]="total"
+    [page]="page"
+    [pageSize]="pageSize"
+    (pageChange)="onPageChange($event)"
+    (delete)="onDelete($event)"
+    (add)="onAddUser()"
+  ></app-data-table>
+</div>

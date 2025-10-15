@@ -1,0 +1,18 @@
+<div class="companies-container">
+  <app-data-table
+    [title]="'Empresas'"
+    [columns]="columns"
+    [displayedColumns]="displayedColumns"
+    [data]="companies"
+    [total]="total"
+    [page]="page"
+    [pageSize]="pageSize"
+    [showEdit]="true"
+    (pageChange)="onPageChange($event)"
+    (delete)="onDelete($event)"
+    (add)="onAddCompany()"
+    (edit)="onEditCompany($event)"
+    [emptyMessage]="'Nenhuma empresa cadastrada no momento.'"
+    (rowClick)="onRowClick($event)"
+  ></app-data-table>
+</div>

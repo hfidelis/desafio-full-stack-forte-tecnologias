@@ -1,0 +1,29 @@
+<div class="company-details-container">
+  <h1>Detalhes da Empresa</h1>
+
+  @if (company) {
+    <div class="company-info">
+      <p><strong>Nome:</strong> {{ company!.name }}</p>
+      <p><strong>CNPJ:</strong> {{ company!.cnpj }}</p>
+      <p><strong>Criado em:</strong> {{ company!.createdAt | date: 'dd/MM/yyyy' }}</p>
+      <p><strong>Atualizado em:</strong> {{ company!.updatedAt | date: 'dd/MM/yyyy' }}</p>
+    </div>
+  }
+
+  <div class="employees-container">
+    <app-data-table
+      [title]="'Funcionários'"
+      [description]="'Clique em um funcionário para gerenciar os ativos.'"
+      [columns]="columns"
+      [displayedColumns]="displayedColumns"
+      [data]="employees"
+      [showEdit]="true"
+      (delete)="onDelete($event)"
+      (add)="onAddEmployee()"
+      (edit)="onEditEmployee($event)"
+      [pagination]="false"
+      [emptyMessage]="'Nenhum funcionário cadastrado no momento.'"
+      (rowClick)="onRowClick($event)"
+    ></app-data-table>
+  </div>
+</div>

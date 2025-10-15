@@ -24,6 +24,7 @@ import {
   ApiQuery,
 } from '@nestjs/swagger';
 import { PaginatedResponseDto } from 'src/common/pagination/pagination-response.dto';
+import { AssetParentDto } from './dto/asset-parent.dto';
 
 @ApiTags('Assets')
 @ApiBearerAuth()
@@ -57,6 +58,28 @@ export class AssetsController {
     @Query('page_size', new DefaultValuePipe(10), ParseIntPipe) page_size = 10,
   ) {
     return this.assetsService.findAll(page, page_size);
+  }
+
+  @Get('types')
+  @ApiOperation({ summary: 'Listar todos os tipos de ativos' })
+  @ApiResponse({
+    status: 200,
+    description: 'Os tipos de ativos foram recuperados com sucesso.',
+    type: [AssetParentDto],
+  })
+  getAssetTypes() {
+    return this.assetsService.getAssetTypes();
+  }
+
+  @Get('statuses')
+  @ApiOperation({ summary: 'Listar todos os status de ativos' })
+  @ApiResponse({
+    status: 200,
+    description: 'Os status de ativos foram recuperados com sucesso.',
+    type: [AssetParentDto],
+  })
+  getAssetStatuses() {
+    return this.assetsService.getAssetStatuses();
   }
 
   @Get(':id')

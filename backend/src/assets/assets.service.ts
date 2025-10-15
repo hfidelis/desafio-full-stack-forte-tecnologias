@@ -8,6 +8,7 @@ import { CreateAssetDto } from './dto/create-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
 import { Asset, Prisma } from '@prisma/client';
 import { PaginatedResponseDto } from 'src/common/pagination/pagination-response.dto';
+import { AssetParentDto } from './dto/asset-parent.dto';
 
 @Injectable()
 export class AssetsService {
@@ -17,7 +18,7 @@ export class AssetsService {
     return this.assetsRepo.create({
       name: dto.name,
       type: { connect: { id: dto.typeId } },
-      status: { connect: { id: dto.statusId } },
+      status: { connect: { id: 1 } },
     });
   }
 
@@ -42,7 +43,6 @@ export class AssetsService {
 
     if (dto.name) data.name = dto.name;
     if (dto.typeId) data.type = { connect: { id: dto.typeId } };
-    if (dto.statusId) data.status = { connect: { id: dto.statusId } };
 
     return this.assetsRepo.update(id, data);
   }
@@ -97,5 +97,13 @@ export class AssetsService {
 
   async findByEmployee(employeeId: number): Promise<Asset[]> {
     return this.assetsRepo.findByEmployee(employeeId);
+  }
+
+  async getAssetTypes(): Promise<AssetParentDto[]> {
+    return this.assetsRepo.getAssetTypes();
+  }
+
+  async getAssetStatuses(): Promise<AssetParentDto[]> {
+    return this.assetsRepo.getAssetStatuses();
   }
 }

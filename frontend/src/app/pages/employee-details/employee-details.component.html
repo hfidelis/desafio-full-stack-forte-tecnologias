@@ -1,0 +1,27 @@
+<div class="employee-details-container">
+  <h1>Detalhes do Funcionário</h1>
+
+  @if (employee) {
+    <div class="employee-info">
+      <p><strong>Nome:</strong> {{ employee.name }}</p>
+      <p><strong>Email:</strong> {{ employee.email }}</p>
+      <p><strong>CPF:</strong> {{ employee.cpf }}</p>
+      <p><strong>Criado em:</strong> {{ employee.createdAt | date: 'dd/MM/yyyy' }}</p>
+      <p><strong>Atualizado em:</strong> {{ employee.updatedAt | date: 'dd/MM/yyyy' }}</p>
+    </div>
+  }
+
+  <div class="assets-container">
+    <app-data-table
+      [title]="'Ativos do Funcionário'"
+      [columns]="assetColumns"
+      [addText]="'Associar Ativo'"
+      [displayedColumns]="displayedAssetColumns"
+      [data]="assets"
+      [showAdd]="true"
+      [emptyMessage]="'Nenhum ativo associado ao funcionário.'"
+      (add)="onAssociateAsset()"
+      (delete)="unassociateAsset($event)"
+    ></app-data-table>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Ativo</h2>
+<form [formGroup]="form" (ngSubmit)="submit()" class="dialog-form">
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nome do Ativo</mat-label>
+    <input matInput formControlName="name" />
+    <mat-error *ngIf="form.controls['name'].hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Tipo</mat-label>
+    <mat-select formControlName="typeId">
+      <mat-option *ngFor="let type of types" [value]="type.id">{{ type.name | translateAsset:'type' }}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.controls['typeId'].hasError('required')">Campo obrigatório</mat-error>
+  </mat-form-field>
+
+  <div class="dialog-actions">
+    <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Salvar</button>
+  </div>
+</form>

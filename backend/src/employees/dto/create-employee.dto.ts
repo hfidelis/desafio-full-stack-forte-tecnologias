@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsEmail, Length, IsInt } from 'class-validator';
 import { IsCpf } from '../../common/validators/is-cpf.validator';
+import { cpf } from 'cpf-cnpj-validator';
+import { Transform } from 'class-transformer';
 export class CreateEmployeeDto {
   @ApiProperty({ example: 'João Silva' })
   @IsString({
@@ -16,6 +18,7 @@ export class CreateEmployeeDto {
   @ApiProperty({ example: '123.456.789-00' })
   @IsString()
   @IsCpf({ message: 'Formato de CPF inválido' })
+  @Transform(({ value }) => cpf.format(value))
   cpf: string;
 
   @ApiProperty({ example: 1 })

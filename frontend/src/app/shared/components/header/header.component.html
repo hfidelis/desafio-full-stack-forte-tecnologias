@@ -1,0 +1,13 @@
+<mat-toolbar color="accent" class="app-header">
+  <a routerLink="/home" class="logo">Forte Asset Manager</a>
+  <span class="spacer"></span>
+
+   @if (auth.isLoggedIn) {
+    @if (auth.currentUser?.role === 'ADMIN') {
+      <a matButton="filled" routerLink="/users">Usuários</a>
+    }
+    <a matButton="filled" routerLink="/companies">Empresas</a>
+    <a matButton="filled" routerLink="/assets">Ativos</a>
+    <button matButton="tonal" (click)="logout()">Sair</button>
+  }
+</mat-toolbar>
