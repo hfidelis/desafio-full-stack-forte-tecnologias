@@ -18,7 +18,7 @@ export class CreateUserDto {
   @ApiProperty({ example: 'senhaForte123' })
   @IsString()
   @IsNotEmpty()
-  @MinLength(6)
+  @MinLength(6, { message: 'A senha deve ter no mínimo 6 caracteres.' })
   password: string;
 
   @ApiProperty({ example: 'USER', enum: Role })

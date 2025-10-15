@@ -1,11 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsEmail, Length, IsInt } from 'class-validator';
 import { IsCpf } from '../../common/validators/is-cpf.validator';
-
 export class CreateEmployeeDto {
   @ApiProperty({ example: 'João Silva' })
-  @IsString()
-  @Length(3, 100)
+  @IsString({
+    message: 'O nome deve ser composto apenas por letras e espaços.',
+  })
+  @Length(3, 100, { message: 'O nome deve ter entre 3 e 100 caracteres.' })
   name: string;
 
   @ApiProperty({ example: 'usuario@exemplo.com' })

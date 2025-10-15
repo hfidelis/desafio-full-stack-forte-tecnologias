@@ -10,7 +10,16 @@ export class EmployeesService {
   constructor(private readonly employeesRepo: EmployeesRepository) {}
 
   async create(dto: CreateEmployeeDto) {
-    return this.employeesRepo.create(dto);
+    try {
+      return this.employeesRepo.create(dto);
+    } catch (error: any) {
+      if ('code' in error && error.code === 'P2002') {
+        throw new NotFoundException(
+          'Já existe um funcionário com este CPF ou email',
+        );
+      }
+      throw error;
+    }
   }
 
   async findAll(
@@ -33,7 +42,16 @@ export class EmployeesService {
   async update(id: number, dto: UpdateEmployeeDto) {
     const employee = await this.employeesRepo.findById(id);
     if (!employee) throw new NotFoundException('Funcionário não encontrado');
-    return this.employeesRepo.update(id, dto);
+    try {
+      return this.employeesRepo.update(id, dto);
+    } catch (error: any) {
+      if ('code' in error && error.code === 'P2002') {
+        throw new NotFoundException(
+          'Já existe um funcionário com este CPF ou email',
+        );
+      }
+      throw error;
+    }
   }
 
   async delete(id: number) {

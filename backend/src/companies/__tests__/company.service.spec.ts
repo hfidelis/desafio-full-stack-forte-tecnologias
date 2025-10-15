@@ -84,26 +84,31 @@ describe('CompaniesService', () => {
   });
 
   describe('update', () => {
-    it('deve atualizar uma empresa existente', async () => {
-      const dto = { name: 'Forte Atualizada', cnpj: '12.345.678/0001-99' };
-      const updated = { id: 1, ...dto } as Company;
+  it('deve atualizar uma empresa existente', async () => {
+    const dto = { name: 'Forte Atualizada', cnpj: '12.345.678/0001-99' };
+    const updated = { id: 1, ...dto } as Company;
 
-      repo.update.mockResolvedValueOnce(updated);
+    repo.findById.mockResolvedValueOnce({ id: 1, name: 'Forte Tecnologias', cnpj: '12.345.678/0001-99' } as Company);
 
-      const result = await service.update(1, dto as UpdateCompanyDto);
-      expect(result).toEqual(updated);
-      expect(repo.update).toHaveBeenCalledWith(1, dto);
-    });
+    repo.update.mockResolvedValueOnce(updated);
+
+    const result = await service.update(1, dto as UpdateCompanyDto);
+    expect(result).toEqual(updated);
+    expect(repo.update).toHaveBeenCalledWith(1, dto);
   });
+});
 
-  describe('delete', () => {
-    it('deve deletar uma empresa existente', async () => {
-      const existing = { id: 1, name: 'Forte Tecnologias', cnpj: '12.345.678/0001-99' } as Company;
-      repo.delete.mockResolvedValueOnce(existing);
+describe('delete', () => {
+  it('deve deletar uma empresa existente', async () => {
+    repo.findById.mockResolvedValueOnce({ id: 1, name: 'Forte Tecnologias', cnpj: '12.345.678/0001-99' } as Company);
 
-      const result = await service.delete(1);
-      expect(result).toEqual(existing);
-      expect(repo.delete).toHaveBeenCalledWith(1);
-    });
+    const existing = { id: 1, name: 'Forte Tecnologias', cnpj: '12.345.678/0001-99' } as Company;
+    repo.delete.mockResolvedValueOnce(existing);
+
+    const result = await service.delete(1);
+    expect(result).toEqual(existing);
+    expect(repo.delete).toHaveBeenCalledWith(1);
   });
+});
+
 });
